@@ -1,0 +1,17 @@
+containers can be attached, detached
+
+containers can be interactive
+
+images can be inspected: docker image inspect
+    - created date
+    - configuration of the container
+    - the entrypoint
+    - layers
+
+
+you can copy from local to docker container with: docker cp . <containerId>:/path
+you can copy from docker container to local
+
+you can name and tag containers and images
+share images
+push images to DockerHub
