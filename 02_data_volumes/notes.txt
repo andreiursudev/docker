@@ -1,0 +1,43 @@
+volumes are specific to a container not an image that's why we have to configure them in docker command.
+
+anonymous volumes - disappear when container stops
+    - can help with performance and  efficiency
+
+named volumes - resist container shutdown; cannot be accessed from outside container
+docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback feedback-node:volumes
+
+Removing Anonymous Volumes
+We saw, that anonymous volumes are removed automatically, when a container is removed.
+This happens when you start / run a container with the --rm option.
+If you start a container without that option, the anonymous volume would NOT be removed, even if you remove the container (with docker rm ...).
+Still, if you then re-create and re-run the container (i.e. you run docker run ... again), a new anonymous volume will be created. So even though the anonymous volume wasn't removed automatically, it'll also not be helpful because a different anonymous volume is attached the next time the container starts (i.e. you removed the old container and run a new one).
+Now you just start piling up a bunch of unused anonymous volumes - you can clear them via docker volume rm VOL_NAME or docker volume prune.
+
+
+bind mounts - can be edited
+docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback -v "absolute path to folder on local:/app" feedback-node:volumes
+local path should be shared with docker from setting
+
+docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback -v "absolute path to folder on local:/app" -v /app/node_modules feedback-node:volumes
+anonymous volume /app/node_modules is not overwritten by bind mount because it has a longer path ( /app/node_modules > /app )
+
+-v "absolute path to folder on local:/app:ro" ro = read-only
+
+
+environment variable
+docker run -d -p 3000:8000 --env PORT=8000 --rm --name feedback-app -v feedback:/app/feedback -v "absolute path to folder on local:/app" feedback-node:volumes
+
+--env = -e
+--env-file .env
+
+
+Environment Variables & Security
+One important note about environment variables and security: Depending on which kind of data you're storing in your environment variables, you might not want to include the secure data directly in your Dockerfile.
+Instead, go for a separate environment variables file which is then only used at runtime (i.e. when you run your container with docker run).
+Otherwise, the values are "baked into the image" and everyone can read these values via docker history <image>.
+For some values, this might not matter but for credentials, private keys etc. you definitely want to avoid that!
+If you use a separate file, the values are not part of the image since you point at that file when you run docker run. But make sure you don't commit that separate file as part of your source control repository, if you're using source control.
+
+ARGuments are available in Dockerfile, NOT accesible in CMD or any application code
+Set on image build (docker build) via --build-arg
+can build multiple images based on the same docker file by using ARG

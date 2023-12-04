@@ -15,3 +15,5 @@ you can copy from docker container to local
 you can name and tag containers and images
 share images
 push images to DockerHub
+
+docker logs to see logs inside container
