@@ -1,0 +1,19 @@
+Out of the box, containers can send requests to the World Wide Web.
+You can communicate with web API's and web pages from inside your dockerized applications.
+You don't need any special setup or any changes to your code, this code just works.
+Sending this HTTP request from inside the dockerized application works.
+It works just as it worked without containers and without Docker.
+
+You need to replace local hosts with a special domain, which is understood by Docker and that's host.docker.internal.
+This special domain is recognized by Docker. It's understood by Docker.
+And it's translated to the IP address off your host machine as seen from inside the Docker container.
+And you can use this anywhere where you need a domain, where you need a URL.
+
+Communication between containers can be maid if we inspect a container and find its ip address and use the ip address
+in the other container.
+
+Create networks using
+docker network create favorites-net
+docker run -d --name mongodb --network favourites-net mongo
+
+If two containers are part of the same network, you can just put the other containers instead of the ip address.
