@@ -1,0 +1,9 @@
+docker network create goals-net
+
+docker run --name mongodb -v data:/data/db --rm -d --network goals-net mongo
+
+/data/db volume is specified in the mongo image documentation
+
+cd backend
+docker build -t goals-node .
+docker run --name goals-backend -v "D:/01learning/01docker/docker/04_multi_container_app/goals-app/backend:/app" -v logs:/app/logs -v /app/node_modules -e MONGODB_USERNAME=max -d --rm -p 80:80 --network goals-net goals-node
