@@ -1,9 +1,17 @@
 docker network create goals-net
 
-docker run --name mongodb -v data:/data/db --rm -d --network goals-net mongo
+docker run --name mongodb -v data:/data/db --rm -d --network goals-net -e MONGO_INITDB_ROOT_USERNAME=andrei -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
 
 /data/db volume is specified in the mongo image documentation
+https://hub.docker.com/_/mongo
 
 cd backend
 docker build -t goals-node .
-docker run --name goals-backend -v "D:/01learning/01docker/docker/04_multi_container_app/goals-app/backend:/app" -v logs:/app/logs -v /app/node_modules -e MONGODB_USERNAME=max -d --rm -p 80:80 --network goals-net goals-node
+docker run --name goals-backend -v "D:/01learning/01docker/docker/04_multi_container_app/goals-app/backend:/app" -v logs:/app/logs -v /app/node_modules -e MONGODB_USERNAME=andrei -d --rm -p 80:80 --network goals-net goals-node
+
+
+cd frontend
+docker build -t goals-react .
+docker run -v "D:/01learning/01docker/docker/04_multi_container_app/goals-app/frontend/src:/app/src" --name goals-frontend --rm -p 3000:3000 -it goals-react
+
+http://localhost:3000/
