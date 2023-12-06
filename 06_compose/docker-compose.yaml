@@ -1,0 +1,51 @@
+version: "3.8"
+services:
+  #define containers
+  mongodb:
+    image: 'mongo'
+    volumes: 
+      - data:/data/db
+    # environment: 
+    #   MONGO_INITDB_ROOT_USERNAME: max
+    #   MONGO_INITDB_ROOT_PASSWORD: secret
+      # - MONGO_INITDB_ROOT_USERNAME=max
+    env_file: 
+      - ./env/mongo.env
+    #because when you use Docker Compose, Docker will automatically create a new environment
+    #for all the services specified in this compose file and it will add all the services to that network
+    #out of the box.
+  backend:
+    build: ./backend
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    #   args:
+    #     some-arg: 1
+    ports:
+      - '80:80'
+    volumes: 
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file: 
+      - ./env/backend.env
+    #With Docker Compose, where we create and launch multiple services, so multiple containers at the same time,
+    #sometimes, one container might depend on another container to be up and running already.
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports: 
+      - '3000:3000'
+    volumes: 
+      - ./frontend/src:/app/src
+    stdin_open: true #To let docker know  that this service needs an open input connection.
+    tty: true #TTY flag for attaching this terminal
+    depends_on: 
+      - backend
+
+#named volumes
+#if you then use the same volume name in different services, the volume will be shared so different containers can use the same volume, the same folder on your hosting machine.
+volumes: 
+  data:
+  logs:

@@ -1,0 +1,5 @@
+to build not-built images:
+docker-compose build
+
+force docker-compose to rebuild the images:
+docker-compose up --bulid
