@@ -1,0 +1,39 @@
+how to run a container:
+
+docker run -it node
+
+docker run -it -d node
+
+docker run -it node npm init #when last command finishes the container stops
+
+The Docker exec command allows you to execute certain commands inside of a running container besides the default command, this container executes.
+So besides the command that might've been specified in a Docker file, that command still continues running.
+
+docker exec -it <containerName> npm init
+
+
+docker build -t node-util .
+
+docker run -it node-util npm init
+
+
+Now, again, we need to do this in interactive mode, to stay connected and to be able to enter values.
+But I also wanna do more than that, by default, this command would run in the app folder inside of the container.
+Now I want to mirror it to my local folder so that what I create in the container is also available here on my host machine.
+So that I can create a project on my host machine with help of a container.
+That's the idea behind having a utility container,we can use it to execute something which has an effect on the host machine
+without having to install all the extra tools on the host machine.
+And we can use a feature for that,
+which we already used many times before in the course, we can use a bind mount with dash v here.
+And I can bind my folder here to the working directory I have in there.
+
+docker run -it -v "D:\01learning\01docker\docker\07_utility_containers:/app" node-util npm init
+
+Npm init overwrites CMD [ "npm" ] in Dockerfile but not ENTRYPOINT [ "npm" ]
+For the entrypoint, whatever you enter after your image name on docker run is appended after the entry point.
+
+docker-compose up
+
+docker-compose run npm init
+
+docker-compose run --rm npm init
