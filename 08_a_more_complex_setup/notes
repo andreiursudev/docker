@@ -1,0 +1,6 @@
+#Initialize laravel project using composer. Will create default file on local disk
+docker-compose run --rm composer create-project --prefer-dist laravel/laravel
+
+docker-compose up -d server php mysql
+or if using server depends on php mysql then
+docker-compose up -d server
