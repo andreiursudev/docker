@@ -5,8 +5,9 @@
 05 Multi-Container Projects
 06 Using Docker-Compose
 07 “Utility Containers”
-08 Deploying Docker Containers
-09 Kubernetes Introduction & Basics
-10 Kubernetes: Data & Volumes
-11 Kubernetes: Networking
-12 Deploying a Kubernetes Cluster
+08 A more complex setup
+09 Deploying Docker Containers
+10 Kubernetes Introduction & Basics
+11 Kubernetes: Data & Volumes
+12 Kubernetes: Networking
+13 Deploying a Kubernetes Cluster
