@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: story
+  template:
+    metadata:
+      labels:
+        app: story
+    spec:
+      containers:
+        - name: story
+          image: academind/kub-data-demo:2
+          env:
+            - name: STORY_FOLDER
+              # value: 'story'
+              valueFrom: 
+                configMapKeyRef:
+                  name: data-store-env
+                  key: folder
+          volumeMounts:
+            - mountPath: /app/story
+              name: story-volume
+      volumes:
+        - name: story-volume
+          # emptyDir simply creates a new empty directory whenever the pod starts.And it keeps this directory alive and filled with data as long as the pod is alive.
+          # emptyDir does not work well when multiple replica exists
+          # emptyDir: {}
+          #hostPath allows us to set a path on the host machine,so on the node, the real machine running this pod,and then the data from that path
+          #will be exposed to the different pods.So multiple pods can now share one path on the host machine instead of pod-specific paths,
+          #which of course, are only useful if it's the same pod, which handles all requests.
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: host-pvc

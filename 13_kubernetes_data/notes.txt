@@ -1,0 +1,6 @@
+kubectl apply -f=host-pv.yaml
+kubectl apply -f=host-pvc.yaml
+kubectl apply -f=deployment.yaml
+
+kubectl get pv
+kubectl get pvc
