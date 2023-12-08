@@ -9,6 +9,7 @@
 09 Deploying Docker Containers
 10 Summary
 11 Kubernetes Introduction & Basics
-12 Kubernetes: Data & Volumes
-13 Kubernetes: Networking
-14 Deploying a Kubernetes Cluster
+12 Kubernetes In Action
+13 Kubernetes: Data & Volumes
+14 Kubernetes: Networking
+15 Deploying a Kubernetes Cluster
